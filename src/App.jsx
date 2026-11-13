@@ -95,39 +95,203 @@ function blow() {
     }, 80)
   })
 }
+
 function Cake() {
-  const [lit, setLit] = useState([1, 1, 1]); const [msg, setMsg] = useState('')
-  const out = lit.every(v => !v)
-  useEffect(() => { if (out) party(250) }, [out])
-  const mic = async () => {
-    try { player.duck(.15); setMsg('Ab zor se phoonk maaro... 🌬️'); await blow(); setLit([0, 0, 0]) }
-    catch { setMsg('Mic nahi chala, candles pe tap karo 👆') }
-    finally { player.duck(1) }
-  }
+  const [lit, setLit] = useState([true, true, true]);
+  const [celebrated, setCelebrated] = useState(false);
+
+  const out = lit.every(v => !v);
+
+  useEffect(() => {
+    if (out && !celebrated) {
+      setCelebrated(true);
+      party(250);
+    }
+  }, [out]);
+
+  const blowCandle = (index) => {
+    if (!lit[index]) return;
+
+    setLit(prev =>
+      prev.map((v, i) => i === index ? false : v)
+    );
+  };
+
+  const celebrateAgain = () => {
+    setLit([true, true, true]);
+    setCelebrated(false);
+  };
+
   return (
     <Sec mood={0}>
-      <h3 className="h3">Pehle ek wish maango 🕯️</h3>
-      <p className="sub">Aankhein band karo, dil mein kuch maango, phir candles bujha do.</p>
-      <div className="relative mb-6 mt-8 h-56 w-56">
-        <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 gap-7">
-          {lit.map((l, i) => (
-            <button key={i} aria-label="candle" onClick={() => setLit(a => a.map((v, j) => j === i ? 0 : v))}
-              className="relative h-11 w-3 rounded bg-[repeating-linear-gradient(45deg,#fff_0_6px,#ff5e8a_6px_12px)] before:absolute before:-inset-3 before:content-['']">
-              <span className={`absolute -top-6 left-1/2 -ml-[7px] h-6 w-3.5 animate-pulse rounded-[50%_50%_50%_50%/60%_60%_40%_40%] bg-[radial-gradient(#fff,#ffd54a_50%,#ff8a00)] shadow-[0_0_22px_8px_#ffb30080] transition-all duration-300 ${l ? '' : 'scale-0 opacity-0'}`} />
-            </button>
-          ))}
+      <div className="text-center">
+
+        <div className="mb-3 text-4xl animate-bounce">
+          🎂
         </div>
-        <div className="absolute left-1/2 top-12 h-11 w-28 -translate-x-1/2 rounded-xl bg-gradient-to-b from-white to-pink-200" />
-        <div className="absolute left-1/2 top-[92px] h-12 w-40 -translate-x-1/2 rounded-xl bg-gradient-to-b from-amber-100 to-gold" />
-        <div className="absolute left-1/2 top-[140px] h-14 w-56 -translate-x-1/2 rounded-xl bg-gradient-to-b from-pink-300 to-rose" />
-        <div className="absolute -inset-x-2 top-[196px] h-6 rounded-[50%] bg-white/20" />
+
+        <h3 className="h3">
+          Make a Birthday Wish ✨
+        </h3>
+
+        <p className="sub">
+          Close your eyes, make a beautiful wish,
+          and tap all three candles to make it come true. 💖
+        </p>
+
+        {/* PREMIUM CAKE */}
+        <div className="relative mx-auto mt-12 mb-10 h-64 w-72">
+
+          {/* Sparkles */}
+          <div className="absolute -left-2 top-12 text-2xl animate-pulse">
+            ✨
+          </div>
+
+          <div className="absolute -right-1 top-20 text-xl animate-pulse">
+            ⭐
+          </div>
+
+          {/* Candles */}
+          <div className="absolute left-1/2 top-0 z-20 flex -translate-x-1/2 gap-8">
+
+            {lit.map((isLit, i) => (
+              <button
+                key={i}
+                onClick={() => blowCandle(i)}
+                aria-label={`Blow out candle ${i + 1}`}
+                className="group relative flex h-20 w-5 flex-col items-center cursor-pointer"
+              >
+
+                {/* Flame */}
+                <span
+                  className={`absolute -top-7 h-7 w-4 origin-bottom rounded-[50%_50%_40%_40%] bg-gradient-to-t from-orange-500 via-yellow-300 to-white shadow-[0_0_22px_8px_rgba(255,180,30,0.5)] transition-all duration-500 ${
+                    isLit
+                      ? 'scale-100 animate-pulse opacity-100'
+                      : 'scale-0 opacity-0'
+                  }`}
+                />
+
+                {/* Candle */}
+                <span className="relative h-16 w-4 overflow-hidden rounded-md border border-white/40 bg-gradient-to-r from-pink-300 via-white to-pink-400 shadow-lg">
+
+                  <span className="absolute inset-0 opacity-50"
+                    style={{
+                      background: 'repeating-linear-gradient(135deg, transparent 0px, transparent 7px, #fb7185 7px, #fb7185 10px)'
+                    }}
+                  />
+
+                </span>
+
+                {/* Wick */}
+                <span className="absolute top-[-2px] h-2 w-[2px] bg-gray-800" />
+
+              </button>
+            ))}
+
+          </div>
+
+          {/* Top Cake Layer */}
+          <div className="absolute left-1/2 top-[78px] z-10 h-12 w-44 -translate-x-1/2 rounded-xl border-b-4 border-pink-300 bg-gradient-to-b from-pink-100 to-pink-300 shadow-lg">
+
+            <div className="absolute -top-1 left-0 h-4 w-full rounded-full bg-white shadow-sm" />
+
+            <div className="absolute top-5 left-5 text-xs">🍓</div>
+            <div className="absolute top-5 right-5 text-xs">🍒</div>
+
+          </div>
+
+          {/* Middle Layer */}
+          <div className="absolute left-1/2 top-[124px] z-10 h-14 w-56 -translate-x-1/2 rounded-xl border-b-4 border-rose-400 bg-gradient-to-b from-rose-200 to-pink-400 shadow-lg">
+
+            <div className="absolute -top-1 left-0 h-4 w-full rounded-full bg-pink-50" />
+
+            <div className="absolute left-8 top-6 text-sm">🤍</div>
+            <div className="absolute right-8 top-6 text-sm">🤍</div>
+
+          </div>
+
+          {/* Bottom Layer */}
+          <div className="absolute left-1/2 top-[177px] z-10 h-16 w-64 -translate-x-1/2 rounded-xl border-b-4 border-rose-500 bg-gradient-to-b from-pink-300 to-rose-400 shadow-xl">
+
+            <div className="absolute -top-1 left-0 h-5 w-full rounded-full bg-white" />
+
+            <div className="absolute left-10 top-7 text-lg">🍓</div>
+            <div className="absolute right-10 top-7 text-lg">🍓</div>
+
+          </div>
+
+          {/* Cake Plate */}
+          <div className="absolute left-1/2 top-[232px] h-5 w-72 -translate-x-1/2 rounded-[50%] border-b-4 border-white/50 bg-gradient-to-b from-white to-pink-200 shadow-xl" />
+
+        </div>
+
+        {/* Candle Counter */}
+        {!out && (
+          <div className="mb-6">
+            <p className="text-sm font-medium text-pink-100">
+              Tap the candles to turn them off
+            </p>
+
+            <div className="mt-3 flex justify-center gap-3">
+              {lit.map((v, i) => (
+                <span key={i} className="text-2xl transition-all">
+                  {v ? '🕯️' : '✨'}
+                </span>
+              ))}
+            </div>
+
+            <p className="mt-2 text-xs text-pink-200">
+              {lit.filter(Boolean).length} candles remaining
+            </p>
+          </div>
+        )}
+
+        {/* Final Birthday Wish */}
+        {out ? (
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: .8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: .8 }}
+            className="mx-auto max-w-sm"
+          >
+
+            <div className="mb-4 text-5xl animate-bounce">
+              💖
+            </div>
+
+            <h2 className="font-display text-3xl font-bold italic text-gold">
+              Happy Birthday, {NAME}! 🎉
+            </h2>
+
+            <p className="mt-4 text-lg leading-relaxed text-pink-100">
+              Tumhari har wish poori ho,
+              tumhari life khushiyon se bhari rahe.
+              Hamesha haste raho aur chamakte raho! ✨
+            </p>
+
+            <p className="mt-4 text-2xl">
+              💐 🥳 💝
+            </p>
+
+            <button
+              onClick={celebrateAgain}
+              className="btn mt-6"
+            >
+              🎉 Celebrate Again
+            </button>
+
+          </motion.div>
+        ) : (
+          <p className="text-sm italic text-pink-200">
+            Three candles, three wishes, endless happiness. 💕
+          </p>
+        )}
+
       </div>
-      {!out ? <button onClick={mic} className="btn">🎤 Phoonk maaro</button>
-        : <motion.p initial={{ opacity: 0, scale: .8 }} animate={{ opacity: 1, scale: 1 }} className="max-w-xs font-display text-3xl font-bold italic text-gold">Tumhari har wish poori ho, {NAME}. Ye mera wada hai 💖</motion.p>}
-      {!out && <p className="mt-3 h-5 text-sm text-pink-200">{msg}</p>}
     </Sec>
-  )
+  );
 }
+
 
 /* 4. SCRATCH CARD */
 function Scratch() {
@@ -138,7 +302,7 @@ function Scratch() {
     const w = c.width = c.offsetWidth, h = c.height = c.offsetHeight, x = c.getContext('2d')
     const g = x.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#f6c978'); g.addColorStop(.5, '#ff8fb1'); g.addColorStop(1, '#c084fc')
     x.fillStyle = g; x.fillRect(0, 0, w, h); x.fillStyle = '#fff'; x.font = '700 28px "Cormorant Garamond",serif'; x.textAlign = 'center'
-    x.fillText('Ungli se ragdo ✨', w / 2, h / 2)
+    x.fillText('Scratch✨', w / 2, h / 2)
     let down = false, n = 0
     const sc = e => {
       if (!down) return
@@ -151,7 +315,7 @@ function Scratch() {
   return (
     <Sec>
       <h3 className="h3">Ek chhupa hua surprise 🎁</h3>
-      <p className="sub">Is card ko ungli se ragdo, dekho neeche kya hai.</p>
+      <p className="sub">Is card ko Scratch, dekho neeche kya hai.</p>
       <div className="relative aspect-[3/4] w-72 overflow-hidden rounded-3xl border-2 border-gold shadow-2xl">
         {p && <img src={p.src} alt="" className="absolute inset-0 h-full w-full object-cover" />}
         <canvas ref={ref} style={{ touchAction: 'none' }} className={`absolute inset-0 h-full w-full transition-opacity duration-700 ${done ? 'pointer-events-none opacity-0' : ''}`} />
