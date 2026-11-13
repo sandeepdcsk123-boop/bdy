@@ -1,0 +1,29 @@
+{
+  "name": "priyanka-birthday",
+  "version": "1.0.0",
+  "private": true,
+  "description": "``` npm install npm run dev      # phone pe bhi dekh sakte ho (same wifi) npm run build ```",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "postcss.config.js",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --host"
+  },
+  "dependencies": {
+    "framer-motion": "^11.11.0",
+    "gsap": "^3.15.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "vite": "^5.4.8"
+  }
+}
